@@ -1,14 +1,14 @@
 # ofxEmacsEditor
 
-A simple text editor for openFrameworks for live coding.
+An Emacs text editor for openFrameworks for live coding.
 
 Features:
 * multiple text buffers
-* Syntax higlighting
-* Copy paste
+* Syntax highlighting
+* Copy paste (Mac only)
 * Emacs navigation
 
-Based on ofxEditor by @darrenmothersele
+Based on [ofxEditor](https://github.com/darrenmothersele/ofxEditor) by [@darrenmothersele](https://github.com/darrenmothersele)
 
 ## Usage
 
@@ -50,12 +50,4 @@ For the editor to be visible you need to draw it in your main oF app draw loop:
     if (editorVisible) {
       editor.draw();
     }
-
-
-## Limitations
-
-The code includes a workaround for a bug in GLFW as mentioned here:
-https://github.com/openframeworks/openFrameworks/issues/2562
-
-The clipboard code only works on OSX.
 
