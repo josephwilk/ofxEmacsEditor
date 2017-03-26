@@ -202,6 +202,16 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
     buf[currentBuffer]->insert("  ");
   }
 
+  if(prevKey == 24 && key == 356){
+    if (--currentBuffer < 0) currentBuffer = maxBuffer;
+    reloadFonts();
+  }
+
+  if(prevKey == 24 && key == 358){
+    if (++currentBuffer > maxBuffer) currentBuffer = 0;
+    reloadFonts();
+  }
+
   //kill line
   if(ctrl && key == 11){
     string s = buf[currentBuffer]->yank();
@@ -254,6 +264,9 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
   //cout << "Key pressed " << key << endl;
 
   // Key has been pressed so update the editor fbo
+  if(ctrl){
+    prevKey = key;
+  }
   update();
 }
 

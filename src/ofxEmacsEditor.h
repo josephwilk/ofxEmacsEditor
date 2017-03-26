@@ -24,6 +24,7 @@ class ofxEmacsEditor {
   bool selectMode;
   string fontName;
   int fontSize;
+  int prevKey;
   ofColor textColor;
   ofColor textBorderColor;
   ofColor cursorColor;
