@@ -65,7 +65,14 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
   bool cmd   = (bool) (ofGetKeyPressed(OF_KEY_COMMAND));
   bool ctrl  = (bool) (ofGetKeyPressed(OF_KEY_CONTROL));
 
-  //printf("key:%i\n", key);
+  if(ctrl && key == 31){
+    printf("Apply:%i\n", key);
+    buf[currentBuffer]->revertText();
+  }
+  else if(!ctrl){
+    buf[currentBuffer]->history[0] = buf[currentBuffer]->getText();
+  }
+
 
   // GLFW bug see issue: https://github.com/openframeworks/openFrameworks/issues/2562
   // Allow shift on non-alpha characters
@@ -261,12 +268,11 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
     }
   }
 
-  //cout << "Key pressed " << key << endl;
-
-  // Key has been pressed so update the editor fbo
   if(ctrl){
     prevKey = key;
   }
+
+  // Key has been pressed so update the editor fbo
   update();
 }
 

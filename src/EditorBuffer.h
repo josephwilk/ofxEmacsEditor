@@ -35,6 +35,7 @@ class EditorBuffer {
   
 public:
   float lineHeight;
+  string history[1];
   float charWidth;
   int fontSize;
   EditorBuffer(ofTrueTypeFont * f);
@@ -48,6 +49,7 @@ public:
 
   string getText();
   void setText(string);
+  void revertText();
 
   void moveCursorHome(bool shift, bool cmd);
   void moveCursorEnd(bool shift, bool cmd);

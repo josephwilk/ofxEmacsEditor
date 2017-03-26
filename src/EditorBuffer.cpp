@@ -30,6 +30,17 @@ maxScale(2.5)
 string EditorBuffer::getText() {
   return text;
 }
+
+void EditorBuffer::revertText(){
+  string tmp;
+  tmp = text;
+  text = history[0];
+  history[0] == tmp;
+  if(cursorPosition > text.end()){
+    cursorPosition = text.end();
+  }
+}
+
 void EditorBuffer::setText(string t) {
   text = t;
   cursorPosition = text.end();
