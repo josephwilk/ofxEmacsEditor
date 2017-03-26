@@ -1,12 +1,13 @@
 # ofxEmacsEditor
 
-An Emacs text editor for openFrameworks for live coding.
+An simple barebones Emacs based text editor for openFrameworks for live coding.
 
 Features:
-* multiple text buffers
+* Multiple text buffers
 * Syntax highlighting
 * Copy paste (Mac only)
 * Emacs navigation
+* Undo
 
 Based on [ofxEditor](https://github.com/darrenmothersele/ofxEditor) by [@darrenmothersele](https://github.com/darrenmothersele)
 
