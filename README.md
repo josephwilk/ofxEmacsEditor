@@ -1,6 +1,6 @@
 # ofxEmacsEditor
 
-An simple barebones Emacs based text editor for openFrameworks for live coding.
+A simple barebones Emacs based text editor for openFrameworks for live coding.
 
 Features:
 * Multiple text buffers
