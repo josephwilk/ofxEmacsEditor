@@ -27,6 +27,8 @@ maxScale(2.5)
   cursorPosition = text.begin();
   selectStart = cursorPosition;
   selectEnd = cursorPosition;
+
+  historyPos[0] = cursorPosition;
 }
 
 string EditorBuffer::getText() {
@@ -40,6 +42,8 @@ void EditorBuffer::revertText(){
   }
   string tmp = text;
   text = history[historyIdx];
+  cursorPosition = historyPos[historyIdx];
+
   history[historyIdx] = tmp;
 
   if(cursorPosition > text.end()){
@@ -65,6 +69,7 @@ void EditorBuffer::invert(){
 
 void EditorBuffer::storeTextChange(){
   history[historyIdx] = text;
+  historyPos[historyIdx] = cursorPosition;
   historyIdx += 1;
   if(historyIdx > 19){
     historyIdx = 0;

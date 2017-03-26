@@ -17,6 +17,7 @@ class EditorBuffer {
 
   string text;
   string history[20];
+  string::iterator historyPos[20];
   int historyIdx = 0;
 
   string::iterator cursorPosition;
