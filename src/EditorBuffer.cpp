@@ -363,8 +363,13 @@ void EditorBuffer::drawStrings() {
   int counter=0;
   string lineString;
   for (string::iterator i = text.begin(); i < text.end(); ++i) {
-    if(token.compare("uniform") == 0 ||
-       token.compare("vec2") == 0 ||
+    if(token.compare("uniform") == 0){
+      ofSetColor(ofColor::pink);
+    }
+    else if(token.compare("//") == 0){
+      ofSetColor(ofColor::grey);
+    }
+    else if(token.compare("vec2") == 0 ||
        token.compare("vec3") == 0 ||
        token.compare("vec4") == 0 ||
        token.compare("float") == 0 ||

@@ -65,7 +65,7 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
   bool cmd   = (bool) (ofGetKeyPressed(OF_KEY_COMMAND));
   bool ctrl  = (bool) (ofGetKeyPressed(OF_KEY_CONTROL));
 
-  printf("key:%i\n", key);
+  //printf("key:%i\n", key);
 
   // GLFW bug see issue: https://github.com/openframeworks/openFrameworks/issues/2562
   // Allow shift on non-alpha characters
@@ -116,6 +116,7 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
 
   if(ctrl && key == 7){
     selectMode = false;
+    buf[currentBuffer]->updateSelect(false);
   }
 
   if(ctrl && key == 0){
@@ -181,7 +182,7 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
     buf[currentBuffer]->moveCursorRow(10, shift, cmd);
   }
     
-  if (cmd && key == 'x' || ctrl && key == 23) {
+  if ((cmd && key == 'x') || (ctrl && key == 23)) {
     ClipBoard::setText(buf[currentBuffer]->getSelection());
     buf[currentBuffer]->removeSelection();
     selectMode = false;
@@ -190,7 +191,7 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
     ClipBoard::setText(buf[currentBuffer]->getSelection());
     selectMode = false;
   }
-  if (cmd && key == 'v' || ctrl && key == 25) {
+  if ((cmd && key == 'v') || (ctrl && key == 25)) {
     buf[currentBuffer]->insert(ClipBoard::getText());
     selectMode = false;
   }

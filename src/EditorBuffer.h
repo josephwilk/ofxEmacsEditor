@@ -19,15 +19,13 @@ class EditorBuffer {
   string::iterator cursorPosition;
   string::iterator selectStart;
   string::iterator selectEnd;
-  void updateSelect(bool);
+
 
   ofColor textColor;
   ofColor textBorderColor;
   ofColor cursorColor;
   ofColor highlightColor;
 
-  
-  
   ofTrueTypeFont * font;
 
 	vector<ofTTFCharacter> shapes;
@@ -64,6 +62,8 @@ public:
   void setTextColor(ofColor, ofColor);
   void setCursorColor(ofColor);
   void setHighlightColor(ofColor);
+
+  void updateSelect(bool);
 
   const string getSelection();
   void removeSelection();
