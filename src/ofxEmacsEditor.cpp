@@ -198,16 +198,8 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
 
   // ESC key (27) handled elsewhere
 
-  // Tab through buffers
   if (key == 9) {
-    if (shift || cmd) {
-      if (--currentBuffer < 0) currentBuffer = maxBuffer;
-    }
-    else {
-      if (++currentBuffer > maxBuffer) currentBuffer = 0;
-    }
-    reloadFonts();
-    //cout << "Switch to buffer " << currentBuffer << " of " << maxBuffer << endl;
+    buf[currentBuffer]->insert("  ");
   }
 
   //kill line
