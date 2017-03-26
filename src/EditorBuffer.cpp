@@ -20,6 +20,8 @@ minScale(0.5),
 maxScale(2.5)
 {
   fontSize = 20;
+  historyIdx = 0;
+  history[0] = text;
   lineHeight = font->getLineHeight();
   charWidth = font->stringWidth("X") + font->getLetterSpacing();
   cursorPosition = text.begin();
@@ -32,12 +34,40 @@ string EditorBuffer::getText() {
 }
 
 void EditorBuffer::revertText(){
-  string tmp;
-  tmp = text;
-  text = history[0];
-  history[0] == tmp;
+  historyIdx-=1;
+  if(historyIdx < 0){
+    historyIdx = 19;
+  }
+  string tmp = text;
+  text = history[historyIdx];
+  history[historyIdx] = tmp;
+
   if(cursorPosition > text.end()){
     cursorPosition = text.end();
+  }
+  if(cursorPosition < text.begin()){
+    cursorPosition = text.begin();
+  }
+  selectStart = cursorPosition;
+  selectEnd = cursorPosition;
+}
+
+void EditorBuffer::invert(){
+  if(textColor == ofColor::white){
+    textColor = ofColor::black;
+    cursorColor = ofColor::black;
+  }
+  else{
+    textColor = ofColor::white;
+    cursorColor = ofColor::white;
+  }
+}
+
+void EditorBuffer::storeTextChange(){
+  history[historyIdx] = text;
+  historyIdx += 1;
+  if(historyIdx > 19){
+    historyIdx = 0;
   }
 }
 
@@ -103,7 +133,9 @@ void EditorBuffer::backspace() {
     }
   }
   else {
-    cursorPosition = text.erase(selectStart, selectEnd);
+    if (cursorPosition != text.begin()) {
+      cursorPosition = text.erase(selectStart, selectEnd);
+    }
   }
   updateSelect(false);
 }

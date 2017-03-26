@@ -16,6 +16,9 @@
 class EditorBuffer {
 
   string text;
+  string history[20];
+  int historyIdx = 0;
+
   string::iterator cursorPosition;
   string::iterator selectStart;
   string::iterator selectEnd;
@@ -35,7 +38,7 @@ class EditorBuffer {
   
 public:
   float lineHeight;
-  string history[1];
+
   float charWidth;
   int fontSize;
   EditorBuffer(ofTrueTypeFont * f);
@@ -50,6 +53,9 @@ public:
   string getText();
   void setText(string);
   void revertText();
+  void storeTextChange();
+
+  void invert();
 
   void moveCursorHome(bool shift, bool cmd);
   void moveCursorEnd(bool shift, bool cmd);
