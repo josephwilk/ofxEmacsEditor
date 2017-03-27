@@ -205,24 +205,29 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
 
   // ESC key (27) handled elsewhere
 
-  if (key == 9) {
+  if (!ctrl && key == 9) {
     buf[currentBuffer]->insert("  ");
+  }
+
+  //invert
+  if(ctrl && key == 9){
+    for (int i = 0; i <= maxBuffer; ++i) {
+      buf[i]->invert();
+    }
   }
 
   if(prevKey == 24 && key == 356){
     if (--currentBuffer < 0) currentBuffer = maxBuffer;
+    prevKey = 0;
     reloadFonts();
   }
 
   if(prevKey == 24 && key == 358){
     if (++currentBuffer > maxBuffer) currentBuffer = 0;
+    prevKey = 0;
     reloadFonts();
   }
 
-  //invert
-  if(ctrl && key == 9){
-    buf[currentBuffer]->invert();
-  }
 
   //kill line
   if(ctrl && key == 11){
