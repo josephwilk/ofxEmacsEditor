@@ -244,7 +244,7 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
 
   //Zoom out
   if(cmd && key == 45){
-      fontSize = fontSize-2;
+      fontSize = max(fontSize-2, 5);
       font.loadFont(fontName, fontSize);
       reloadFonts();
   }
