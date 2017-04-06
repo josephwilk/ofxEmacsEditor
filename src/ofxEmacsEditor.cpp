@@ -21,7 +21,10 @@ highlightColor(ofColor::deepPink, 250)
   //font.loadFont(fontname, 5, true, false, true);
   fontName = selectedFont;
   fontSize = 20;
-  font.loadFont(fontName, fontSize);
+  font.load(fontName, fontSize, true, true);
+
+  font.setGlobalDpi(230);
+
   selectMode = false;
   // Reserve text buffers
   buf.reserve(noBuffers);
@@ -30,6 +33,10 @@ highlightColor(ofColor::deepPink, 250)
     buf[i]->setTextColor(textColor, textBorderColor);
     buf[i]->setCursorColor(cursorColor);
     buf[i]->setHighlightColor(highlightColor);
+
+    buf[i]->lineHeight = font.getLineHeight();
+    buf[i]->charWidth  = font.stringWidth("X") + font.getLetterSpacing();
+    buf[i]->fontSize   = fontSize;
   }
   currentBuffer = 1;
   maxBuffer = noBuffers - 1;
@@ -71,8 +78,6 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
   else if(!ctrl && key != 357 && key != 359 && key != 356 && key != 358){
     buf[currentBuffer]->storeTextChange();
   }
-
-  //printf("key:%i\n", key);
 
   // GLFW bug see issue: https://github.com/openframeworks/openFrameworks/issues/2562
   // Allow shift on non-alpha characters
@@ -135,14 +140,16 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
     buf[currentBuffer]->insert(key);
   }
   // Add new line to buffer text
-  if (key == 13) {
+  if (!cmd && key == 13) {
     buf[currentBuffer]->insert('\n');
   }
+
   // Pass backspace delete to text buffer
   if (key == 127) {
     buf[currentBuffer]->backspace();
   }
 
+  // Delete
   if(key == 8) {
     buf[currentBuffer]->del();
   }
@@ -184,20 +191,25 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
   if (key == 360) {
     buf[currentBuffer]->moveCursorRow(-10, shift, cmd);
   }
+
   //page down
   if (key == 361) {
     buf[currentBuffer]->moveCursorRow(10, shift, cmd);
   }
-    
+
+  //Cut
   if ((cmd && key == 'x') || (ctrl && key == 23)) {
     ClipBoard::setText(buf[currentBuffer]->getSelection());
     buf[currentBuffer]->removeSelection();
     selectMode = false;
   }
-  if (cmd && key == 'c') {
+
+  //Copy. Note the hack (key == -1). For some reason key gets nuked on `w` + alt
+  if ((cmd && key == 'c') || (alt && key == -1)) {
     ClipBoard::setText(buf[currentBuffer]->getSelection());
     selectMode = false;
   }
+
   if ((cmd && key == 'v') || (ctrl && key == 25)) {
     buf[currentBuffer]->insert(ClipBoard::getText());
     selectMode = false;
@@ -216,18 +228,19 @@ void ofxEmacsEditor::handleKeyPress(ofKeyEventArgs & _key) {
     }
   }
 
+  //Previous buffer
   if(prevKey == 24 && key == 356){
     if (--currentBuffer < 0) currentBuffer = maxBuffer;
     prevKey = 0;
     reloadFonts();
   }
 
+  //Next buffer
   if(prevKey == 24 && key == 358){
     if (++currentBuffer > maxBuffer) currentBuffer = 0;
     prevKey = 0;
     reloadFonts();
   }
-
 
   //kill line
   if(ctrl && key == 11){
@@ -299,6 +312,7 @@ void ofxEmacsEditor::draw() {
 
 
 void ofxEmacsEditor::update() {
+  reloadFonts();
   ofPushStyle();
   editorFbo.begin();
   ofClear(0,0,0,0);

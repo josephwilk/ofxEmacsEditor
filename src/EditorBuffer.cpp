@@ -176,7 +176,6 @@ void EditorBuffer::clear() {
   selectEnd = cursorPosition;
 }
 
-
 void EditorBuffer::moveCursorRow(int direction, bool shift, bool cmd) {
   setCursorPosition(getCurrentCol(), getCurrentRow() + direction);
   updateSelect(shift);
@@ -273,6 +272,9 @@ void EditorBuffer::moveCursorCol(int direction, bool shift, bool cmd) {
 
 const string EditorBuffer::getSelection() {
   return string(selectStart, selectEnd);
+  selectEnd = selectStart;
+  cursorPosition = selectStart;
+  updateSelect(false);
 }
 
 void EditorBuffer::removeSelection() {
@@ -469,11 +471,9 @@ void EditorBuffer::colorDrawStrings() {
 }
 
 void EditorBuffer::drawCursor() {
-  
   ofPushMatrix();
   ofPushStyle();
-  //ofTranslate(x, y);
-  
+
   ofPopStyle();
   ofPopMatrix();
 }
@@ -517,7 +517,7 @@ void EditorBuffer::draw(float x, float y, float w, float h) {
 
   // Draw cursor
   ofSetColor(cursorColor);
-  ofRect(cursorPoint, 10, -lineHeight);
+  ofRect(cursorPoint, 5, -lineHeight);
 
   ofPopStyle();
   ofPopMatrix();

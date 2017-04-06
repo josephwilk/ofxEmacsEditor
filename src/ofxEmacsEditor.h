@@ -19,7 +19,6 @@ typedef void (*EditorCommand)(void *);
 class ofxEmacsEditor {
 
   ofFbo editorFbo;
-  ofTrueTypeFont font;
 
   bool selectMode;
   string fontName;
@@ -34,6 +33,8 @@ class ofxEmacsEditor {
 
 public:
   ofxEmacsEditor(int noBuffers = 1, string fontname = "DroidSansMono.ttf");
+
+  ofTrueTypeFont font;
 
   void addCommand(int key, void *_o, EditorCommand _c) {
     cmds[key] = make_pair(_o, _c);
